@@ -1,0 +1,11 @@
+mail:
+    email: abc@gmail.com
+    password: 123
+
+logging:
+    log_dir: ../logs/
+    log_level: INFO
+
+data:
+    data_dir:
+    cache_dir:
