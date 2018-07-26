@@ -1,11 +1,28 @@
 mail:
-    email: abc@gmail.com
-    password: 123
+    public_key: abc
+    secret_key: 123
+    recipients:
+        - x@gmail.com
+        - y@gmx.de
+    sender: z@hotmail.com
 
 logging:
     log_dir: ../logs/
     log_level: INFO
 
 data:
-    data_dir:
-    cache_dir:
+    dir: ../data/
+    db_name: listings.db
+    db_user: bostadsformedlingen
+    db_password: 123
+
+dependencies:
+    - PyYAML
+    - requests
+    - mailjet_rest
+    - pandas
+    - datetime
+    - logging
+    - datetime
+    - sys
+    - os
