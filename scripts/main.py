@@ -30,7 +30,7 @@ try:
     data = BF()
     MailJet().send_update(data.get_relevant_data())
     if len(data.new_listing_ids) > 0:
-        data.get_new_listings()
+        print(data.get_new_listings())
 except Exception as e:
     logging.exception(e)
 
