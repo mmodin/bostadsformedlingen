@@ -36,9 +36,10 @@ class BF:
 
     # To do
     # Add getting detailed data in init
-    # Add getting statistics in init
+    # Parse page
+    # Add link to listing in table (url + one of the columns, which?)
 
-    def __init__(self):
+    def __init__(self, username, password, login=False):
         from bf_data import column_names, fields, municipalities, types, districts
         self.url = 'https://bostad.stockholm.se'
         self.column_names = column_names
@@ -47,8 +48,29 @@ class BF:
         self.types = types
         self.districts = districts
         self.data_dir = '../data/latest.pkl'
+        self.login = login
+        self.session = requests.Session()
 
-        response = requests.get(self.url + '/Lista/AllaAnnonser')
+
+        if self.login:
+            response = self.session.get(self.url + '/Minasidor/login/')
+            logger.info('Getting login cookie...status code: %s' % response.status_code)
+            url = 'https://login001.stockholm.se/siteminderagent/forms/login.fcc'
+            data = {
+                'target': '-SM-https://bostad.stockholm.se/secure/login',
+                'smauthreason': '0',
+                'smagentname': 'bostad.stockholm.se',
+                'USER': username,
+                'PASSWORD': password
+            }
+            response = self.session.post(url, data=data)
+            if response.status_code == 200:
+                logger.info('Successfully logged in...')
+            else:
+                logger.error('Failed logging in with status code: %s' % response.status_code)
+                raise Exception('Login error')
+
+        response = self.session.get(self.url + '/Lista/AllaAnnonser')
         if response.status_code == 200:
             data = response.json()
             self.all_listings = pd.DataFrame([flatten(d) for d in data])
@@ -81,7 +103,7 @@ class BF:
         logger.info('Successfully saved the latest data...')
 
         # make flexible to year?
-        response = requests.get(self.url + '/statistik/statistiktjansten/GetAreas?year=2018&queue=Bostadsk%C3%B6n')
+        response = self.session.get(self.url + '/statistik/statistiktjansten/GetAreas?year=2018&queue=Bostadsk%C3%B6n')
         if response.status_code == 200:
             data = flatten_municipality(response.json())
             self.all_areas = pd.DataFrame(data)
@@ -98,6 +120,7 @@ class BF:
         return df[self.fields][
             df.type.isin(self.types)
             & df.district.isin(self.districts)
+            & df.canApply == self.login
         ]
 
     def get_new_listings(self):
