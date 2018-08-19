@@ -16,10 +16,12 @@ log_format = '%(levelname)s %(asctime)s %(module)s - %(message)s'
 log_name = "log_%s.txt" % datetime.now().strftime("%Y-%m-%d--%H-%M-%S")
 
 # Configure and start logger
-logging.basicConfig(filename=log_dir + log_name,
-                    level=log_level,
-                    format=log_format,
-                    filemode='w+')
+logging.basicConfig(
+    filename=log_dir + log_name,
+    level=log_level,
+    format=log_format,
+    filemode='w+'
+)
 logger = logging.getLogger()
 stream = logging.StreamHandler(stdout)
 logger.addHandler(stream)
@@ -27,11 +29,13 @@ logger.addHandler(stream)
 # Start program
 logger.info('Program started')
 try:
-    data = BF()
+    data = BF(
+        login=True,
+        username=config['bf']['username'],
+        password=config['bf']['password']
+    )
     MailJet().send_update(data.get_relevant_data())
     if len(data.new_listing_ids) > 0:
         print(data.get_new_listings())
 except Exception as e:
     logging.exception(e)
-
-
