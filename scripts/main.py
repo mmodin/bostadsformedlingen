@@ -31,11 +31,11 @@ logger.info('Program started')
 try:
     data = BF(
         login=True,
+        detail=True,
         username=config['bf']['username'],
         password=config['bf']['password']
     )
     MailJet().send_update(data.get_relevant_data())
-    if len(data.new_listing_ids) > 0:
-        print(data.get_new_listings())
+    print(data.get_new_listings())
 except Exception as e:
     logging.exception(e)
