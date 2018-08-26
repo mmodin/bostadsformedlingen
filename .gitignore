@@ -1,6 +1,7 @@
 scripts/venv/*
 scripts/.*
-scripts/config.yml
+config.yml
 logs/*
+archive
 scripts/bostadsformedlingen-f4963f377f57.json
 

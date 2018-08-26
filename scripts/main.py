@@ -6,7 +6,7 @@ from MailJet import MailJet
 from datetime import datetime
 
 # Load configuration file
-with open('config.yml', 'r') as f:
+with open('../config.yml', 'r') as f:
     config = yaml.load(f)
 
 # Store config values as variables

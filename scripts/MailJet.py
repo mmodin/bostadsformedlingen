@@ -13,7 +13,7 @@ class MailJet:
 
     def __init__(self):
         # Load config file
-        with open('config.yml', 'r') as f:
+        with open('../#config.yml', 'r') as f:
             config = yaml.load(f)
         # Store config data
         self.public_key = config['mail']['public_key']
