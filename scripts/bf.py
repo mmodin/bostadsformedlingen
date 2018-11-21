@@ -35,18 +35,29 @@ def flatten_municipality(area_list):
 
 def extract_queue(html):
     soup = BeautifulSoup(html, 'html.parser')
-    property = soup.find(class_='col40').find(class_='egenskap')
-    if property is None:
+    try:
+        property = soup.find(class_='col40').find(class_='egenskap')
+        mtag = soup.find(class_="highlightTxt").find(class_="m-tag")
+        if mtag is not None:
+            type = mtag.get_text()
+        else:
+            type = None
+        if type == "Nyproduktion":
+            queue = type
+        elif property is None:
+            queue = nan
+        else:
+            queue = property.find(class_='v').get_text().replace(' av ', '/')
+    except Exception as e:
+        print("Caught exception collecting the queue. Setting queue to NaN.\n%s" % e)
         queue = nan
-    else:
-        queue = property.find(class_='v').get_text().replace(' av ', '/')
     return queue
 
 
 def download_html(session, id, relevant):
     q = nan
     if relevant is True:
-        url = 'https://bostad.stockholm.se/Lista/Details/?aid=' + str(id)
+        url = 'https://bostad.stockholm.se/Lista/Details/?aid=%s' % id
         response = session.get(url)
         if response.status_code == 200:
             q = extract_queue(response.text)

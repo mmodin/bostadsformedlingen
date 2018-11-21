@@ -36,6 +36,6 @@ try:
         password=config['bf']['password']
     )
     MailJet().send_update(data.get_relevant_data())
-    print(data.get_new_listings())
+    print(data.get_relevant_data())
 except Exception as e:
     logging.exception(e)

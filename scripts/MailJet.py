@@ -32,7 +32,7 @@ class MailJet:
             'FromEmail': self.sender,
             'FromName': 'Apartment finder',
             'Subject': 'Daily Apartment Update (%s)' % datetime.now(),
-            'Html-part': '<h3>Appartments currently listed: </h3><br /> %s <br />' % html_table(df),
+            'Html-part': '<h3>Apartments currently listed: </h3><br /> %s <br />' % html_table(df),
             'Recipients': self.recipients
         }
         logger.info('Sending email...')
@@ -42,7 +42,3 @@ class MailJet:
             return result
         else:
             logger.error('Something went wrong while sending email...status code: %s', result.status_code)
-
-
-
-

@@ -92,4 +92,4 @@ districts = ['Nacka Strand', 'Sickla Strand', 'Södermalm', 'Johanneshov', 'Skep
              'Norra Djurgården', 'Liljeholmen', 'Hjorthagen', 'Lilla Essingen',
              'Norrmalm', 'Södra Hammarbyhamnen', 'Fredhäll', 'Marieberg', 'Midsommarkransen'
              ]
-types = ['Hyresrätt', 'Korttidskontrakt']
+types = ['Hyresrätt', 'Korttidskontrakt', 'Bostadssnabben']
