@@ -7,7 +7,8 @@ def html_table(df):
         template = f.read().replace('\n', '')
 
     # Replace id column with url
-    df['id'] = df['id'].apply(lambda x: '<a href="https://bostad.stockholm.se/Lista/details?aid={0}">{0}</a>'.format(x))
+    html_tag = '<a href="https://bostad.stockholm.se/Lista/details?aid={0}" rel="notrack">{0}</a>'
+    df['id'] = df['id'].apply(lambda x: html_tag.format(x))
 
     # Set display options to enable long URLs
     pandas.set_option('display.max_colwidth', -1)
