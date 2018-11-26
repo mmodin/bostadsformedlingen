@@ -28,11 +28,12 @@ class MailJet:
 
     def send_update(self, df):
         logger.info('Generating email template...')
+        website = 'See <a href="https://bostad.mmodin.com" rel="notrack">bostad.mmodin.com</a> for latest data.'
         data = {
             'FromEmail': self.sender,
             'FromName': 'Apartment finder',
             'Subject': 'Daily Apartment Update (%s)' % datetime.now(),
-            'Html-part': '<h3>Apartments currently listed: </h3><br /> %s <br />' % html_table(df),
+            'Html-part': '<h3>Apartments currently listed: </h3><br /> %s <br />%s<br />' % (website, html_table(df)),
             'Recipients': self.recipients
         }
         logger.info('Sending email...')
